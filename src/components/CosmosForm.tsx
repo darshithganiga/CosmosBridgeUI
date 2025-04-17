@@ -1,18 +1,24 @@
 import { useMemo } from "react";
-import { Container, Form, Button, Alert } from "react-bootstrap";
+import { useState } from "react";
+import NotificationBox from "../components/NotificationBox";
+import { Container, Form, Button } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import {
   updateField,
   fetchStarted,
   fetchSuccess,
   fetchFailed,
-  clearAlerts,
 } from "../store/formSlice";
 import { transferData } from "../services/api";
 
 const CosmosForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const formState = useAppSelector((state) => state.form);
+  const [notification, setNotification] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
   const isFormValid = useMemo(() => {
     return (
       formState.CosmosDBConnectionString.trim() !== "" &&
@@ -38,40 +44,42 @@ const CosmosForm: React.FC = () => {
     try {
       const result = await transferData(formState);
       dispatch(
-        fetchSuccess(result.message || "Data transfer initiated successfully!")
+        fetchSuccess(result.message || "Data transfer completed successfully!")
       );
+      setNotification({
+        type: "success",
+        message: result.message || "Data transfer completed successfully",
+      });
     } catch (error) {
-      dispatch(
-        fetchFailed(
-          error instanceof Error ? error.message : "An unknown error occurred"
-        )
-      );
+      const errorMessage =
+        error instanceof Error ? error.message : "An unknown error occurred";
+      dispatch(fetchFailed(errorMessage));
+      setNotification({
+        type: "error",
+        message: errorMessage,
+      });
     }
   };
+  {
+    notification && (
+      <NotificationBox
+        type={notification.type}
+        message={notification.message}
+        onClose={() => setNotification(null)}
+      />
+    );
+  }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen position-relative">
+      {notification && (
+        <NotificationBox
+          type={notification.type}
+          message={notification.message}
+          onClose={() => setNotification(null)}
+        />
+      )}
       <Container className="py-4">
-        {formState.error && (
-          <Alert
-            variant="danger"
-            onClose={() => dispatch(clearAlerts())}
-            dismissible
-          >
-            {formState.error}
-          </Alert>
-        )}
-
-        {formState.success && (
-          <Alert
-            variant="success"
-            onClose={() => dispatch(clearAlerts())}
-            dismissible
-          >
-            {formState.success}
-          </Alert>
-        )}
-
         <Form
           onSubmit={handleSubmit}
           className="bg-white p-4 shadow-sm rounded"
@@ -177,9 +185,8 @@ const CosmosForm: React.FC = () => {
           <Form.Group className="mb-4">
             <Form.Label>Query</Form.Label>
             <Form.Control
-              as="textarea"
+              type="text"
               style={{ border: "1px solid #333", borderRadius: "0" }}
-              rows={2}
               name="Query"
               value={formState.Query}
               onChange={handleChange}
