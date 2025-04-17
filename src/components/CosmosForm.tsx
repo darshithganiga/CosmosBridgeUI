@@ -1,6 +1,4 @@
-import { useMemo } from "react";
-import { useState } from "react";
-import NotificationBox from "../components/NotificationBox";
+import { useMemo, useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import {
@@ -10,14 +8,13 @@ import {
   fetchFailed,
 } from "../store/formSlice";
 import { transferData } from "../services/api";
+import ToastNotifier, { showToast } from "./ToastNotifier";
+import LoadingOverlay from "./LoadingOverlay";
 
 const CosmosForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const formState = useAppSelector((state) => state.form);
-  const [notification, setNotification] = useState<{
-    type: "success" | "error";
-    message: string;
-  } | null>(null);
+  const [isLoading, setisLoading] = useState(false);
 
   const isFormValid = useMemo(() => {
     return (
@@ -40,45 +37,29 @@ const CosmosForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(fetchStarted());
+    setisLoading(true);
 
     try {
       const result = await transferData(formState);
       dispatch(
         fetchSuccess(result.message || "Data transfer completed successfully!")
       );
-      setNotification({
-        type: "success",
-        message: result.message || "Data transfer completed successfully",
-      });
+      showToast.success(result.message || "Data transfer successful");
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred";
       dispatch(fetchFailed(errorMessage));
-      setNotification({
-        type: "error",
-        message: errorMessage,
-      });
+      showToast.error(errorMessage);
+    } finally {
+      setisLoading(false);
     }
   };
-  {
-    notification && (
-      <NotificationBox
-        type={notification.type}
-        message={notification.message}
-        onClose={() => setNotification(null)}
-      />
-    );
-  }
 
   return (
     <div className="bg-gray-50 min-h-screen position-relative">
-      {notification && (
-        <NotificationBox
-          type={notification.type}
-          message={notification.message}
-          onClose={() => setNotification(null)}
-        />
-      )}
+      <ToastNotifier />
+      {isLoading && <LoadingOverlay />}
+
       <Container className="py-4">
         <Form
           onSubmit={handleSubmit}
@@ -199,10 +180,11 @@ const CosmosForm: React.FC = () => {
             <Button
               variant="primary"
               type="submit"
-              disabled={formState.isLoading || !isFormValid}
+              disabled={!isFormValid || isLoading}
               className="px-4"
             >
-              {formState.isLoading ? "Processing..." : "Fetch Data"}
+              Transfer Data
+              {/* {formState.isLoading ? "Processing..." : "Fetch Data"} */}
             </Button>
           </div>
         </Form>
