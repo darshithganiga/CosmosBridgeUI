@@ -1,5 +1,5 @@
+// components/LoadingOverlay.tsx
 import React from "react";
-import { Spinner } from "react-bootstrap";
 import { GridLoader } from "react-spinners";
 
 const overlayStyles: React.CSSProperties = {
@@ -15,15 +15,26 @@ const overlayStyles: React.CSSProperties = {
   zIndex: 1050,
 };
 
-const LoadingOverlay: React.FC = () => {
-  return (
-    <div style={overlayStyles}>
-      <div className="text-center">
-        <Spinner animation="border" variant="primary" />
-        <div className="mt-2 fw-bold text-dark">Loading...</div>
+interface LoadingOverlayProps {
+  color?: string;
+
+  size?: number;
+  speedMultiplier?: number;
+}
+
+const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
+  color = "#0f3",
+  size = 20,
+  speedMultiplier = 1,
+}) => (
+  <div style={overlayStyles}>
+    <div className="text-center">
+      <GridLoader color={color} size={size} speedMultiplier={speedMultiplier} />
+      <div className="mt-3 text-dark fw-bold fs-4" style={{ lineHeight: 1.4 }}>
+        Preparing to transfer data...
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 export default LoadingOverlay;

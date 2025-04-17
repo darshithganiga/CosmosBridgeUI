@@ -60,6 +60,10 @@ const CosmosForm: React.FC = () => {
       <ToastNotifier />
       {isLoading && <LoadingOverlay />}
 
+      {/* {isLoading && (
+        <LoadingOverlay color="#e83e8c" size={20} speedMultiplier={1.5} />
+      )} */}
+
       <Container className="py-4">
         <Form
           onSubmit={handleSubmit}
@@ -184,7 +188,6 @@ const CosmosForm: React.FC = () => {
               className="px-4"
             >
               Transfer Data
-              {/* {formState.isLoading ? "Processing..." : "Fetch Data"} */}
             </Button>
           </div>
         </Form>
