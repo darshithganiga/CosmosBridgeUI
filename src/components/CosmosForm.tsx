@@ -16,6 +16,10 @@ const CosmosForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const formState = useAppSelector((state) => state.form);
   const [isLoading, setisLoading] = useState(false);
+  const [touchedFields, setTouchedFields] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const isFormValid = useMemo(() => {
     return (
@@ -28,6 +32,24 @@ const CosmosForm: React.FC = () => {
       formState.Query.trim() !== ""
     );
   }, [formState]);
+  const fieldErrors = useMemo(
+    () => ({
+      CosmosDBConnectionString: !formState.CosmosDBConnectionString.trim(),
+      ContainerName: !formState.ContainerName.trim(),
+      CosmosDBDatabaseName: !formState.CosmosDBDatabaseName.trim(),
+      SQLServerConnectionString: !formState.SQLServerConnectionString.trim(),
+      SQLTableName: !formState.SQLTableName.trim(),
+      SQLDatabaseName: !formState.SQLDatabaseName.trim(),
+      Query: !formState.Query.trim(),
+    }),
+    [formState]
+  );
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name } = e.target;
+    setTouchedFields((prev) => ({ ...prev, [name]: true }));
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -37,8 +59,21 @@ const CosmosForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setTouchedFields({
+      CosmosDBConnectionString: true,
+      ContainerName: true,
+      CosmosDBDatabaseName: true,
+      SQLServerConnectionString: true,
+      SQLTableName: true,
+      SQLDatabaseName: true,
+      Query: true,
+    });
+
+    if (!isFormValid) return;
     dispatch(fetchStarted());
     setisLoading(true);
+    setShowSuccess(false);
 
     try {
       const result = await transferData(formState);
@@ -46,6 +81,7 @@ const CosmosForm: React.FC = () => {
         fetchSuccess(result.message || "Data transfer completed successfully!")
       );
       showToast.success(result.message || "Data transfer successful");
+      setShowSuccess(true);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred";
@@ -77,7 +113,15 @@ const CosmosForm: React.FC = () => {
                     onChange={handleChange}
                     placeholder="Enter Cosmos DB connection string"
                     required
+                    isInvalid={
+                      touchedFields["CosmosDBConnectionString"] &&
+                      fieldErrors.CosmosDBConnectionString
+                    }
+                    onBlur={handleBlur}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    This field is required.
+                  </Form.Control.Feedback>
                 </Form.Group>
               </div>
 
@@ -178,7 +222,7 @@ const CosmosForm: React.FC = () => {
             <Button
               variant="outline-primary"
               type="submit"
-              disabled={!isFormValid || isLoading}
+              disabled={isLoading}
               className="px-4"
             >
               Fetch and Transfer
