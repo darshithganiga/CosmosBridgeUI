@@ -60,10 +60,6 @@ const CosmosForm: React.FC = () => {
       <ToastNotifier />
       {isLoading && <LoadingOverlay />}
 
-      {/* {isLoading && (
-        <LoadingOverlay color="#e83e8c" size={20} speedMultiplier={1.5} />
-      )} */}
-
       <Container className="py-4">
         <Form
           onSubmit={handleSubmit}

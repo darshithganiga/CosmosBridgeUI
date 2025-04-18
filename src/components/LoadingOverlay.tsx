@@ -23,7 +23,7 @@ interface LoadingOverlayProps {
 }
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
-  color = "#0f3",
+  color = "#58cf3d",
   size = 20,
   speedMultiplier = 1,
 }) => (
