@@ -22,8 +22,7 @@ export const transferData = async (formData: FormState) => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       throw new Error(
-        error.response?.data?.message ||
-          "failed to transfer the data from Cosmos Db to MS SQL"
+        error.response?.data?.message || "Failed to transfer the data "
       );
     }
     throw error;

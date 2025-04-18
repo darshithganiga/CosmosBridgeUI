@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar as BootstrapNavbar, Container } from "react-bootstrap";
-import logo from "../assets/newsafesendlogo.png";
+import logo from "../assets/newsafesendlogo1.png";
 
 const Navbar: React.FC = () => {
   return (
@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
           <img
             src={logo}
             alt="SafeSend Logo"
-            style={{ height: "42px", marginRight: "12px" }}
+            style={{ height: "38px", marginRight: "6px" }}
           />
         </div>
         <span style={{ fontSize: "2.0rem", fontWeight: "bold" }}>
@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
 
         <div
           className="mx-auto text-white fw-bold"
-          style={{ fontSize: "1.5rem" }}
+          style={{ fontSize: "2.0rem" }}
         >
           Cosmos
           <span style={{ color: "#8DC63F" }}>Bridge</span>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../hooks";
+
 import {
   updateField,
   fetchStarted,
@@ -56,15 +57,12 @@ const CosmosForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen position-relative">
+    <div className="bg-white min-h-screen position-relative">
       <ToastNotifier />
       {isLoading && <LoadingOverlay />}
 
       <Container className="py-4">
-        <Form
-          onSubmit={handleSubmit}
-          className="bg-white p-4 shadow-sm rounded"
-        >
+        <Form onSubmit={handleSubmit} className="bg-white p-4 rounded">
           <div className="mb-4">
             <h4 className="fw-bold mb-3">Cosmos DB Configuration</h4>
             <div className="row g-3">
@@ -92,7 +90,7 @@ const CosmosForm: React.FC = () => {
                     name="CosmosDBDatabaseName"
                     value={formState.CosmosDBDatabaseName}
                     onChange={handleChange}
-                    placeholder="Enter database ID"
+                    placeholder=" Database ID"
                     required
                   />
                 </Form.Group>
@@ -178,12 +176,12 @@ const CosmosForm: React.FC = () => {
 
           <div className="text-end">
             <Button
-              variant="primary"
+              variant="outline-primary"
               type="submit"
               disabled={!isFormValid || isLoading}
               className="px-4"
             >
-              Transfer Data
+              Fetch and Transfer
             </Button>
           </div>
         </Form>

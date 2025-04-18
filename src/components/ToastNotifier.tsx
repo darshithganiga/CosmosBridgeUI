@@ -1,5 +1,6 @@
 import { ToastContainer, toast, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../Customstyles/ToastStyles.css";
 
 const toastConfig: ToastOptions = {
   position: "top-right",
@@ -17,5 +18,5 @@ export const showToast = {
   error: (message: string) => toast.error(message, toastConfig),
 };
 
-const ToastNotifier = () => <ToastContainer />;
+const ToastNotifier = () => <ToastContainer toastClassName="custom-toast" />;
 export default ToastNotifier;
