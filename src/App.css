@@ -44,3 +44,17 @@
   min-height: 100vh;
   background-color: #f8f9fa;
 }
+
+.magnifier {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  font-size: 1.5rem; /* Zoom factor */
+  padding: 4px 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  white-space: pre;
+  z-index: 999;
+  display: none;
+}
