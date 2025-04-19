@@ -104,6 +104,10 @@ const CosmosForm: React.FC = () => {
                       onChange={handleChange}
                       placeholder="Enter Cosmos DB connection string"
                       required
+                      isValid={
+                        touchedFields["CosmosDBConnectionString"] &&
+                        !fieldErrors.CosmosDBConnectionString
+                      }
                       isInvalid={
                         touchedFields["CosmosDBConnectionString"] &&
                         fieldErrors.CosmosDBConnectionString
@@ -113,57 +117,71 @@ const CosmosForm: React.FC = () => {
                     <Form.Control.Feedback tooltip type="invalid">
                       Connection string is required
                     </Form.Control.Feedback>
+                    <Form.Control.Feedback tooltip type="valid">
+                      Looks Good!
+                    </Form.Control.Feedback>
                   </Form.Group>
                 </div>
               </div>
 
               <div className="col-md-4">
-                <div className="position-relative">
-                  <Form.Group className="mb-3">
-                    <Form.Label>Cosmos DB Database ID</Form.Label>
-                    <Form.Control
-                      type="text"
-                      style={{ border: "1px solid #333", borderRadius: "0" }}
-                      name="CosmosDBDatabaseName"
-                      value={formState.CosmosDBDatabaseName}
-                      onChange={handleChange}
-                      placeholder=" Database ID"
-                      required
-                      isInvalid={
-                        touchedFields["CosmosDBDatabaseName"] &&
-                        fieldErrors.CosmosDBDatabaseName
-                      }
-                      onBlur={handleBlur}
-                    />
-                    <Form.Control.Feedback tooltip type="invalid">
-                      CosmosDB ID is required
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </div>
+                <Form.Group className="mb-3 position-relative">
+                  <Form.Label>Cosmos DB Database ID</Form.Label>
+                  <Form.Control
+                    type="text"
+                    style={{ border: "1px solid #333", borderRadius: "0" }}
+                    name="CosmosDBDatabaseName"
+                    value={formState.CosmosDBDatabaseName}
+                    onChange={handleChange}
+                    placeholder=" Database ID"
+                    required
+                    isValid={
+                      touchedFields["CosmosDBDatabaseName"] &&
+                      !fieldErrors.CosmosDBDatabaseName
+                    }
+                    isInvalid={
+                      touchedFields["CosmosDBDatabaseName"] &&
+                      fieldErrors.CosmosDBDatabaseName
+                    }
+                    onBlur={handleBlur}
+                  />
+                  <Form.Control.Feedback tooltip type="invalid">
+                    CosmosDB ID is required
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback tooltip type="valid">
+                    Looks good!
+                  </Form.Control.Feedback>
+                </Form.Group>
               </div>
+
               <div className="col-md-4">
-                <div className="position-relative">
-                  <Form.Group className="mb-3">
-                    <Form.Label>Cosmos DB Container Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      style={{ border: "1px solid #333", borderRadius: "0" }}
-                      name="ContainerName"
-                      value={formState.ContainerName}
-                      onChange={handleChange}
-                      placeholder="Enter container name"
-                      required
-                      isInvalid={
-                        touchedFields["ContainerName"] &&
-                        fieldErrors.ContainerName
-                      }
-                      onBlur={handleBlur}
-                    />
-                    <Form.Control.Feedback tooltip type="invalid">
-                      container Name is required
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </div>
+                <Form.Group className="mb-3 position-relative">
+                  <Form.Label>Cosmos DB Container Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    style={{ border: "1px solid #333", borderRadius: "0" }}
+                    name="ContainerName"
+                    value={formState.ContainerName}
+                    onChange={handleChange}
+                    placeholder="Enter container name"
+                    required
+                    isValid={
+                      touchedFields["ContainerName"] &&
+                      !fieldErrors.ContainerName
+                    }
+                    isInvalid={
+                      touchedFields["ContainerName"] &&
+                      fieldErrors.ContainerName
+                    }
+                    onBlur={handleBlur}
+                  />
+                  <Form.Control.Feedback tooltip type="invalid">
+                    container Name is required
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback tooltip type="valid">
+                    Looks good!
+                  </Form.Control.Feedback>
+                </Form.Group>
               </div>
             </div>
           </div>
@@ -172,81 +190,97 @@ const CosmosForm: React.FC = () => {
             <h4 className="fw-bold mb-3">MS SQL Configuration</h4>
             <div className="row g-3">
               <div className="col-md-4">
-                <div className="position-relative">
-                  <Form.Group className="mb-3">
-                    <Form.Label>MS SQL Connection String</Form.Label>
-                    <Form.Control
-                      type="text"
-                      style={{ border: "1px solid #333", borderRadius: "0" }}
-                      name="SQLServerConnectionString"
-                      value={formState.SQLServerConnectionString}
-                      onChange={handleChange}
-                      placeholder="Enter MS SQL connection string"
-                      required
-                      isInvalid={
-                        touchedFields["SQLServerConnectionString"] &&
-                        fieldErrors.SQLServerConnectionString
-                      }
-                      onBlur={handleBlur}
-                    />
-                    <Form.Control.Feedback tooltip type="invalid">
-                      connection string is required
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </div>
+                <Form.Group className="mb-3 position-relative">
+                  <Form.Label>MS SQL Connection String</Form.Label>
+                  <Form.Control
+                    type="text"
+                    style={{ border: "1px solid #333", borderRadius: "0" }}
+                    name="SQLServerConnectionString"
+                    value={formState.SQLServerConnectionString}
+                    onChange={handleChange}
+                    placeholder="Enter MS SQL connection string"
+                    required
+                    isValid={
+                      touchedFields["SQLServerConnectionString"] &&
+                      !fieldErrors.SQLServerConnectionString
+                    }
+                    isInvalid={
+                      touchedFields["SQLServerConnectionString"] &&
+                      fieldErrors.SQLServerConnectionString
+                    }
+                    onBlur={handleBlur}
+                  />
+                  <Form.Control.Feedback tooltip type="valid">
+                    Looks good !
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback tooltip type="invalid">
+                    connection string is required
+                  </Form.Control.Feedback>
+                </Form.Group>
               </div>
+
               <div className="col-md-4">
-                <div className="position-relative">
-                  <Form.Group className="mb-3">
-                    <Form.Label>MS SQL Database Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      style={{ border: "1px solid #333", borderRadius: "0" }}
-                      name="SQLDatabaseName"
-                      value={formState.SQLDatabaseName}
-                      onChange={handleChange}
-                      placeholder="Enter database name"
-                      required
-                      isInvalid={
-                        touchedFields["SQLDatabaseName"] &&
-                        fieldErrors.SQLDatabaseName
-                      }
-                      onBlur={handleBlur}
-                    />
-                    <Form.Control.Feedback tooltip type="invalid">
-                      Data base name is required
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </div>
+                <Form.Group className="mb-3 position-relative">
+                  <Form.Label>MS SQL Database Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    style={{ border: "1px solid #333", borderRadius: "0" }}
+                    name="SQLDatabaseName"
+                    value={formState.SQLDatabaseName}
+                    onChange={handleChange}
+                    placeholder="Enter database name"
+                    required
+                    isValid={
+                      touchedFields["SQLDatabaseName"] &&
+                      !fieldErrors.SQLDatabaseName
+                    }
+                    isInvalid={
+                      touchedFields["SQLDatabaseName"] &&
+                      fieldErrors.SQLDatabaseName
+                    }
+                    onBlur={handleBlur}
+                  />
+                  <Form.Control.Feedback tooltip type="valid">
+                    Looks good !
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback tooltip type="invalid">
+                    Data base name is required
+                  </Form.Control.Feedback>
+                </Form.Group>
               </div>
+
               <div className="col-md-4">
-                <div className="position-relative">
-                  <Form.Group className="mb-3">
-                    <Form.Label>MS SQL Table Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      style={{ border: "1px solid #333", borderRadius: "0" }}
-                      name="SQLTableName"
-                      value={formState.SQLTableName}
-                      onChange={handleChange}
-                      placeholder="Enter table name"
-                      required
-                      isInvalid={
-                        touchedFields["SQLTableName"] &&
-                        fieldErrors.SQLTableName
-                      }
-                      onBlur={handleBlur}
-                    />
-                    <Form.Control.Feedback type="invalid" tooltip>
-                      SQL Table Name is required
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                </div>
+                <Form.Group className="mb-3 position-relative">
+                  <Form.Label>MS SQL Table Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    style={{ border: "1px solid #333", borderRadius: "0" }}
+                    name="SQLTableName"
+                    value={formState.SQLTableName}
+                    onChange={handleChange}
+                    placeholder="Enter table name"
+                    required
+                    isValid={
+                      touchedFields["SQLTableName"] && !fieldErrors.SQLTableName
+                    }
+                    isInvalid={
+                      touchedFields["SQLTableName"] && fieldErrors.SQLTableName
+                    }
+                    onBlur={handleBlur}
+                  />
+                  <Form.Control.Feedback tooltip type="valid">
+                    Looks good !
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback type="invalid" tooltip>
+                    SQL Table Name is required
+                  </Form.Control.Feedback>
+                </Form.Group>
               </div>
             </div>
           </div>
-          <div className="position-relative">
-            <Form.Group className="mb-4">
+
+          <div className="col-md-14">
+            <Form.Group className="mb-4 position-relative">
               <Form.Label>Query</Form.Label>
               <Form.Control
                 type="text"
@@ -259,6 +293,9 @@ const CosmosForm: React.FC = () => {
                 isInvalid={touchedFields["Query"] && fieldErrors.Query}
                 onBlur={handleBlur}
               />
+              <Form.Control.Feedback tooltip type="valid">
+                Looks good !
+              </Form.Control.Feedback>
               <Form.Control.Feedback type="invalid" tooltip>
                 Query Cannot be Empty
               </Form.Control.Feedback>
