@@ -1,4 +1,3 @@
-// components/LoadingOverlay.tsx
 import React from "react";
 import { GridLoader } from "react-spinners";
 
@@ -12,6 +11,7 @@ const overlayStyles: React.CSSProperties = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+
   zIndex: 1050,
 };
 
