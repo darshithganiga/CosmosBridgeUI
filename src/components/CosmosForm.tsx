@@ -8,9 +8,10 @@ import {
   fetchSuccess,
   fetchFailed,
 } from "../store/formSlice";
-import { transferData } from "../services/api";
+import { transferData } from "../services/Fetchapi";
 import ToastNotifier, { showToast } from "./ToastNotifier";
 import LoadingOverlay from "./LoadingOverlay";
+import { Validateconnections } from "../services/ValidateApi";
 
 const CosmosForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -66,12 +67,24 @@ const CosmosForm: React.FC = () => {
     setShowSuccess(false);
 
     try {
-      const result = await transferData(formState);
-      dispatch(
-        fetchSuccess(result.message || "Data transfer completed successfully!")
-      );
-      showToast.success(result.message || "Data transfer successful");
-      setShowSuccess(true);
+      const validateResponse = await Validateconnections(formState);
+      console.log(validateResponse.success);
+      if (validateResponse.success) {
+        const result = await transferData(formState);
+        dispatch(
+          fetchSuccess(
+            result.message || "Data transfer completed successfully!"
+          )
+        );
+        showToast.success(result.message || "Data transfer successful");
+        setShowSuccess(true);
+      } else {
+        // Handle validation failure
+        const validationError =
+          validateResponse.message || "Validation failed.";
+        dispatch(fetchFailed(validationError));
+        showToast.error(validationError);
+      }
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "An unknown error occurred";

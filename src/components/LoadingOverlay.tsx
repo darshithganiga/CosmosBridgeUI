@@ -7,7 +7,7 @@ const overlayStyles: React.CSSProperties = {
   left: 0,
   width: "100vw",
   height: "100vh",
-  backgroundColor: "rgba(255, 255, 255, 0.7)",
+  backgroundColor: "rgba(255, 255, 255, 0.89)",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -31,7 +31,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
     <div className="text-center">
       <GridLoader color={color} size={size} speedMultiplier={speedMultiplier} />
       <div className="mt-3 text-dark fw-bold fs-4" style={{ lineHeight: 1.4 }}>
-        Preparing to transfer data...
+        Establishing the connection...
       </div>
     </div>
   </div>
