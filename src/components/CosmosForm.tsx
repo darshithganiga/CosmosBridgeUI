@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, KeyboardEvent, useRef } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import { useAppDispatch, useAppSelector } from "../hooks";
 
@@ -21,6 +21,8 @@ const CosmosForm: React.FC = () => {
     [key: string]: boolean;
   }>({});
   const [showSuccess, setShowSuccess] = useState(false);
+  // Reference to the form element
+  const formRef = useRef<HTMLFormElement>(null);
 
   const fieldErrors = useMemo(
     () => ({
@@ -34,6 +36,7 @@ const CosmosForm: React.FC = () => {
     }),
     [formState]
   );
+
   const handleBlur = (
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -45,6 +48,32 @@ const CosmosForm: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     dispatch(updateField({ name: e.target.name, value: e.target.value }));
+  };
+
+  const handleKeyDown = (
+    e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (!formRef.current) return;
+
+      const form = formRef.current;
+      const inputs = Array.from(
+        form.querySelectorAll('input, textarea, select, button[type="submit"]')
+      ).filter(
+        (el) =>
+          !el.hasAttribute("disabled") && el.getAttribute("type") !== "hidden"
+      );
+
+      const currentIndex = inputs.indexOf(e.target as HTMLElement);
+
+      if (currentIndex >= 0 && currentIndex < inputs.length - 1) {
+        (inputs[currentIndex + 1] as HTMLElement).focus();
+      } else if (currentIndex === inputs.length - 1) {
+        form.requestSubmit();
+      }
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -101,7 +130,11 @@ const CosmosForm: React.FC = () => {
       {isLoading && <LoadingOverlay />}
 
       <Container className="py-4">
-        <Form onSubmit={handleSubmit} className="bg-white p-4 rounded">
+        <Form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="bg-white p-4 rounded"
+        >
           <div className="mb-4">
             <h4 className="fw-bold mb-3">Cosmos DB Configuration</h4>
             <div className="row g-3">
@@ -115,6 +148,7 @@ const CosmosForm: React.FC = () => {
                       name="CosmosDBConnectionString"
                       value={formState.CosmosDBConnectionString}
                       onChange={handleChange}
+                      onKeyDown={handleKeyDown}
                       placeholder="Enter Cosmos DB connection string"
                       required
                       isValid={
@@ -146,6 +180,7 @@ const CosmosForm: React.FC = () => {
                     name="CosmosDBDatabaseName"
                     value={formState.CosmosDBDatabaseName}
                     onChange={handleChange}
+                    onKeyDown={handleKeyDown}
                     placeholder=" Database ID"
                     required
                     isValid={
@@ -176,6 +211,7 @@ const CosmosForm: React.FC = () => {
                     name="ContainerName"
                     value={formState.ContainerName}
                     onChange={handleChange}
+                    onKeyDown={handleKeyDown}
                     placeholder="Enter container name"
                     required
                     isValid={
@@ -211,6 +247,7 @@ const CosmosForm: React.FC = () => {
                     name="SQLServerConnectionString"
                     value={formState.SQLServerConnectionString}
                     onChange={handleChange}
+                    onKeyDown={handleKeyDown}
                     placeholder="Enter MS SQL connection string"
                     required
                     isValid={
@@ -241,6 +278,7 @@ const CosmosForm: React.FC = () => {
                     name="SQLDatabaseName"
                     value={formState.SQLDatabaseName}
                     onChange={handleChange}
+                    onKeyDown={handleKeyDown}
                     placeholder="Enter database name"
                     required
                     isValid={
@@ -271,6 +309,7 @@ const CosmosForm: React.FC = () => {
                     name="SQLTableName"
                     value={formState.SQLTableName}
                     onChange={handleChange}
+                    onKeyDown={handleKeyDown}
                     placeholder="Enter table name"
                     required
                     isValid={
@@ -301,8 +340,10 @@ const CosmosForm: React.FC = () => {
                 name="Query"
                 value={formState.Query}
                 onChange={handleChange}
+                onKeyDown={handleKeyDown}
                 placeholder="Enter your query Example: Select * from c"
                 required
+                isValid={touchedFields["Query"] && !fieldErrors.Query}
                 isInvalid={touchedFields["Query"] && fieldErrors.Query}
                 onBlur={handleBlur}
               />

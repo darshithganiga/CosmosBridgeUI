@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
           <img
             src={logo}
             alt="SafeSend Logo"
-            style={{ height: "38px", marginRight: "6px" }}
+            style={{ height: "35px", marginRight: "6px", marginLeft: "6px" }}
           />
         </div>
         <span style={{ fontSize: "2.0rem", fontWeight: "bold" }}>
