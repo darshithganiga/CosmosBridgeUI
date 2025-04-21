@@ -17,6 +17,7 @@ const CosmosForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const formState = useAppSelector((state) => state.form);
   const [isLoading, setisLoading] = useState(false);
+  const [isToastVisible, setIsToastVisible] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState(
     "Esatblishing the Connection"
   );
@@ -109,13 +110,9 @@ const CosmosForm: React.FC = () => {
           )
         );
         showToast.success(result.message || "Data transfer successful");
-        // setShowSuccess(true);
       } else {
-        // Handle validation failure
-        const validationError =
-          validateResponse.message || "Validation failed.";
-        dispatch(fetchFailed(validationError));
-        showToast.error(validationError);
+        dispatch(fetchFailed(validateResponse.message));
+        showToast.error(validateResponse.message);
       }
     } catch (error) {
       const errorMessage =
@@ -129,7 +126,10 @@ const CosmosForm: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen position-relative">
-      <ToastNotifier />
+      <ToastNotifier
+        onShow={() => setIsToastVisible(true)}
+        onHide={() => setIsToastVisible(false)}
+      />
       {isLoading && <LoadingOverlay message={loadingMessage} />}
 
       <Container className="py-4">
@@ -363,7 +363,7 @@ const CosmosForm: React.FC = () => {
             <Button
               variant="outline-primary"
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || isToastVisible}
               className="px-4"
             >
               Fetch and Transfer

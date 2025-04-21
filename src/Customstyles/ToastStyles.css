@@ -3,7 +3,7 @@
   min-height: 80px;
   font-size: 1rem;
   opacity: 0.9;
-  backdrop-filter: blur(5px); /* optional: nice frosted glass effect */
+  backdrop-filter: blur(5px);
   border-radius: 8px;
   font-size: 1.2rem;
   font-weight: 500;

@@ -1,6 +1,7 @@
 import { ToastContainer, toast, ToastOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Customstyles/ToastStyles.css";
+import { useEffect } from "react";
 
 const toastConfig: ToastOptions = {
   position: "top-right",
@@ -17,6 +18,23 @@ export const showToast = {
   success: (message: string) => toast.success(message, toastConfig),
   error: (message: string) => toast.error(message, toastConfig),
 };
+type ToastNotifierProps = {
+  onShow?: () => void;
+  onHide?: () => void;
+};
 
-const ToastNotifier = () => <ToastContainer toastClassName="custom-toast" />;
+const ToastNotifier = ({ onShow, onHide }: ToastNotifierProps) => {
+  useEffect(() => {
+    const id = toast.onChange((payload) => {
+      if (payload.status === "added") {
+        onShow?.();
+      }
+      if (payload.status === "removed") {
+        onHide?.();
+      }
+    });
+  }, [onShow, onHide]);
+
+  return <ToastContainer toastClassName="custom-toast" />;
+};
 export default ToastNotifier;
