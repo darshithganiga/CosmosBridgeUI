@@ -1,0 +1,36 @@
+.loading-overlay {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.938);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+}
+
+.loading-text {
+  margin-top: 3rem;
+  color: #2ac73f;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.dot-container {
+  display: inline-flex;
+  margin-left: 4px;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  margin: 0 2px;
+  border-radius: 50%;
+  background-color: #58cf3d;
+  display: inline-block;
+  animation: bounce 0.6s infinite ease-in-out;
+}

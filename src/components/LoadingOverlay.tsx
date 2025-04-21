@@ -1,40 +1,76 @@
 import React from "react";
-import { GridLoader } from "react-spinners";
-
-const overlayStyles: React.CSSProperties = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100vw",
-  height: "100vh",
-  backgroundColor: "rgba(255, 255, 255, 0.89)",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-
-  zIndex: 1050,
-};
+import { ScaleLoader } from "react-spinners";
+import { motion } from "framer-motion";
+import "../Customstyles/LoadingoverlayStyles.css";
 
 interface LoadingOverlayProps {
   color?: string;
+  // size?: number;
+  height?: number | string;
+  width?: number | string;
+  radius?: number | string;
 
-  size?: number;
+  margin?: number | string;
+  barCount?: number;
   speedMultiplier?: number;
+  message?: string;
 }
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   color = "#58cf3d",
-  size = 20,
+  // size = 15,
+  barCount = 6,
+  height = 50,
+  width = 11,
+  radius = 50,
+
+  margin = 1,
   speedMultiplier = 1,
-}) => (
-  <div style={overlayStyles}>
-    <div className="text-center">
-      <GridLoader color={color} size={size} speedMultiplier={speedMultiplier} />
-      <div className="mt-3 text-dark fw-bold fs-4" style={{ lineHeight: 1.4 }}>
-        Establishing the connection...
+  message = "",
+}) => {
+  const dotVariants = {
+    animate: (i: number) => ({
+      opacity: [0, 1, 0],
+      scale: [1, 1.5, 1],
+      transition: {
+        duration: 1.2,
+        ease: "easeInOut",
+        repeat: Infinity,
+        delay: i * 0.3,
+      },
+    }),
+  };
+
+  return (
+    <div className="loading-overlay">
+      <div className="text-center">
+        <ScaleLoader
+          color={color}
+          // size={size}
+          margin={margin}
+          height={height}
+          speedMultiplier={speedMultiplier}
+          barCount={barCount}
+          width={width}
+          radius={radius}
+        />
+        <div className="loading-text">
+          {message}
+          <span className="dot-container">
+            {[0, 1, 2, 3].map((i) => (
+              <motion.span
+                key={i}
+                custom={i}
+                variants={dotVariants}
+                animate="animate"
+                className="dot"
+              />
+            ))}
+          </span>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default LoadingOverlay;

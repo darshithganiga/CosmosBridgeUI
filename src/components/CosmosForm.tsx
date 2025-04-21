@@ -17,11 +17,13 @@ const CosmosForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const formState = useAppSelector((state) => state.form);
   const [isLoading, setisLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState(
+    "Esatblishing the Connection"
+  );
   const [touchedFields, setTouchedFields] = useState<{
     [key: string]: boolean;
   }>({});
-  const [showSuccess, setShowSuccess] = useState(false);
-  // Reference to the form element
+
   const formRef = useRef<HTMLFormElement>(null);
 
   const fieldErrors = useMemo(
@@ -93,12 +95,13 @@ const CosmosForm: React.FC = () => {
 
     dispatch(fetchStarted());
     setisLoading(true);
-    setShowSuccess(false);
 
     try {
       const validateResponse = await Validateconnections(formState);
       console.log(validateResponse.success);
+      setLoadingMessage("Establishing the connection");
       if (validateResponse.success) {
+        setLoadingMessage("Initiating data transfer");
         const result = await transferData(formState);
         dispatch(
           fetchSuccess(
@@ -106,7 +109,7 @@ const CosmosForm: React.FC = () => {
           )
         );
         showToast.success(result.message || "Data transfer successful");
-        setShowSuccess(true);
+        // setShowSuccess(true);
       } else {
         // Handle validation failure
         const validationError =
@@ -127,7 +130,7 @@ const CosmosForm: React.FC = () => {
   return (
     <div className="bg-white min-h-screen position-relative">
       <ToastNotifier />
-      {isLoading && <LoadingOverlay />}
+      {isLoading && <LoadingOverlay message={loadingMessage} />}
 
       <Container className="py-4">
         <Form
@@ -164,9 +167,9 @@ const CosmosForm: React.FC = () => {
                     <Form.Control.Feedback tooltip type="invalid">
                       Connection string is required
                     </Form.Control.Feedback>
-                    <Form.Control.Feedback tooltip type="valid">
+                    {/* <Form.Control.Feedback tooltip type="valid">
                       Looks Good!
-                    </Form.Control.Feedback>
+                    </Form.Control.Feedback> */}
                   </Form.Group>
                 </div>
               </div>
@@ -196,9 +199,9 @@ const CosmosForm: React.FC = () => {
                   <Form.Control.Feedback tooltip type="invalid">
                     CosmosDB ID is required
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback tooltip type="valid">
+                  {/* <Form.Control.Feedback tooltip type="valid">
                     Looks good!
-                  </Form.Control.Feedback>
+                  </Form.Control.Feedback> */}
                 </Form.Group>
               </div>
 
@@ -227,9 +230,9 @@ const CosmosForm: React.FC = () => {
                   <Form.Control.Feedback tooltip type="invalid">
                     container Name is required
                   </Form.Control.Feedback>
-                  <Form.Control.Feedback tooltip type="valid">
+                  {/* <Form.Control.Feedback tooltip type="valid">
                     Looks good!
-                  </Form.Control.Feedback>
+                  </Form.Control.Feedback> */}
                 </Form.Group>
               </div>
             </div>
@@ -260,9 +263,9 @@ const CosmosForm: React.FC = () => {
                     }
                     onBlur={handleBlur}
                   />
-                  <Form.Control.Feedback tooltip type="valid">
+                  {/* <Form.Control.Feedback tooltip type="valid">
                     Looks good !
-                  </Form.Control.Feedback>
+                  </Form.Control.Feedback> */}
                   <Form.Control.Feedback tooltip type="invalid">
                     connection string is required
                   </Form.Control.Feedback>
@@ -291,9 +294,9 @@ const CosmosForm: React.FC = () => {
                     }
                     onBlur={handleBlur}
                   />
-                  <Form.Control.Feedback tooltip type="valid">
+                  {/* <Form.Control.Feedback tooltip type="valid">
                     Looks good !
-                  </Form.Control.Feedback>
+                  </Form.Control.Feedback> */}
                   <Form.Control.Feedback tooltip type="invalid">
                     Data base name is required
                   </Form.Control.Feedback>
@@ -320,9 +323,9 @@ const CosmosForm: React.FC = () => {
                     }
                     onBlur={handleBlur}
                   />
-                  <Form.Control.Feedback tooltip type="valid">
+                  {/* <Form.Control.Feedback tooltip type="valid">
                     Looks good !
-                  </Form.Control.Feedback>
+                  </Form.Control.Feedback> */}
                   <Form.Control.Feedback type="invalid" tooltip>
                     SQL Table Name is required
                   </Form.Control.Feedback>
@@ -347,9 +350,9 @@ const CosmosForm: React.FC = () => {
                 isInvalid={touchedFields["Query"] && fieldErrors.Query}
                 onBlur={handleBlur}
               />
-              <Form.Control.Feedback tooltip type="valid">
+              {/* <Form.Control.Feedback tooltip type="valid">
                 Looks good !
-              </Form.Control.Feedback>
+              </Form.Control.Feedback> */}
               <Form.Control.Feedback type="invalid" tooltip>
                 Query Cannot be Empty
               </Form.Control.Feedback>
