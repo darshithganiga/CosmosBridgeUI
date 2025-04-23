@@ -25,7 +25,7 @@ type ToastNotifierProps = {
 
 const ToastNotifier = ({ onShow, onHide }: ToastNotifierProps) => {
   useEffect(() => {
-    const id = toast.onChange((payload) => {
+    toast.onChange((payload) => {
       if (payload.status === "added") {
         onShow?.();
       }

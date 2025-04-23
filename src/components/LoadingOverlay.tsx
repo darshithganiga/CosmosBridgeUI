@@ -5,11 +5,9 @@ import "../Customstyles/LoadingoverlayStyles.css";
 
 interface LoadingOverlayProps {
   color?: string;
-  // size?: number;
   height?: number | string;
   width?: number | string;
   radius?: number | string;
-
   margin?: number | string;
   barCount?: number;
   speedMultiplier?: number;
@@ -18,12 +16,10 @@ interface LoadingOverlayProps {
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   color = "#58cf3d",
-  // size = 15,
   barCount = 6,
   height = 50,
   width = 11,
   radius = 50,
-
   margin = 1,
   speedMultiplier = 1,
   message = "",
@@ -46,7 +42,6 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
       <div className="text-center">
         <ScaleLoader
           color={color}
-          // size={size}
           margin={margin}
           height={height}
           speedMultiplier={speedMultiplier}

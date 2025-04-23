@@ -6,6 +6,7 @@ export interface FormState {
   SQLTableName: string;
   SQLDatabaseName: string;
   Query: string;
+
   isLoading: boolean;
   error: string | null;
   success: string | null;
