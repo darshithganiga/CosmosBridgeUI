@@ -24,10 +24,12 @@ const CosmosForm: React.FC = () => {
     [key: string]: boolean;
   }>({});
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const formRef = useRef<HTMLFormElement>(null);
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-      .withUrl("https://localhost:7127/NotificationHub")
+      .withUrl(`${API_BASE_URL}/NotificationHub`)
       .withAutomaticReconnect()
       .build();
 

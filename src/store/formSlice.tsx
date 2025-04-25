@@ -27,7 +27,7 @@ export const formSlice = createSlice({
     },
     fetchStarted: (state) => {
       state.isLoading = true;
-      state.error = null;
+      // state.error = null;
       state.success = null;
     },
     fetchSuccess: (state, action: PayloadAction<string>) => {
