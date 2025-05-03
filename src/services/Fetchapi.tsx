@@ -1,22 +1,20 @@
-import axios from "axios";
 import { FormState } from "../types";
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+import apiClient from "../utils/ApiClient";
+import axios from "axios";
 
 export const transferData = async (formData: FormState) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/api/CosmosToSql/transfer`,
-      {
-        Query: formData.Query,
-        CosmosDBConnectionString: formData.CosmosDBConnectionString,
-        CosmosDBDatabaseName: formData.CosmosDBDatabaseName,
-        ContainerName: formData.ContainerName,
-        SQLServerConnectionString: formData.SQLServerConnectionString,
-        SQLDatabaseName: formData.SQLDatabaseName,
-        SQLTableName: formData.SQLTableName,
-      }
-    );
+    const payload = {
+      Query: formData.Query,
+      CosmosDBConnectionString: formData.CosmosDBConnectionString,
+      CosmosDBDatabaseName: formData.CosmosDBDatabaseName,
+      ContainerName: formData.ContainerName,
+      SQLServerConnectionString: formData.SQLServerConnectionString,
+      SQLDatabaseName: formData.SQLDatabaseName,
+      SQLTableName: formData.SQLTableName,
+    };
+
+    const response = await apiClient.post("/api/CosmosToSql/transfer", payload);
 
     return response.data;
   } catch (error) {

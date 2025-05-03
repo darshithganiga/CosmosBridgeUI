@@ -4,12 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3000",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@azure/msal-browser": "^4.11.0",
+    "@azure/msal-react": "^3.0.10",
     "@microsoft/signalr": "^8.0.7",
     "@reduxjs/toolkit": "^2.6.1",
     "axios": "^1.8.4",
@@ -19,6 +21,7 @@
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
+    "react-router-dom": "^7.5.2",
     "react-spinners": "^0.16.1",
     "react-toastify": "^11.0.5"
   },
@@ -26,6 +29,7 @@
     "@eslint/js": "^9.21.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/react-router-dom": "^5.3.3",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
